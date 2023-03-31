@@ -1,4 +1,9 @@
 {
+  "manifest_version": 3,
+  "name": "Raccourcia",
+  "description": "Build strong shortcuts with IA.",
+  "version": "1.0.0",
+  "options_page": "src/options/index.html",
   "action": {
     "default_popup": "src/popup/index.html"
   },
@@ -20,14 +25,10 @@
   "host_permissions": [
     "*://*/*"
   ],
-  "manifest_version": 3,
-  "name": "chrome-extension",
-  "options_page": "src/options/index.html",
   "permissions": [
     "storage",
     "tabs"
   ],
-  "version": "1.0.0",
   "web_accessible_resources": [
     {
       "matches": [

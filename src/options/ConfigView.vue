@@ -58,8 +58,6 @@ export default {
     ShortcutDeleteModal
   },
   async created(){
-    await chrome.storage.local.set({ keys: [] });
-    await chrome.storage.local.set({ keysInvalid: true });
     /*
     await chrome.storage.sync.set({
       shortcuts: []
