@@ -7,21 +7,22 @@ const runAction = async (action, strategy, tabId) => {
     keys = [];
 
     if([3, 4, 5].includes(action.id)){
+        const events = [
+            'openTab',
+            'duplicateTab',
+            'closeTab'
+        ];
+
         await chrome.runtime.sendMessage({
-            event: action.id === 3 ?
-                'openTab' :
-                action.id === 4 ?
-            'duplicateTab' :
-            'closeTab',
+            event: events[action.id - 3],
             url: strategy.instruction
         });
-        //window.open('chrome://new-tab-page/', '_blank').focus();
     }
 }
 
 const afterDOMLoaded = async () => {
     shortcuts = await chrome.runtime.sendMessage({
-        event: 'load',
+        event: 'loaded',
     });
 }
 

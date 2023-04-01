@@ -5,7 +5,7 @@ const getCurrentTab = async () => {
 }
 
 const processRequest = async (request) => {
-    if(request.event === 'load'){
+    if(request.event === 'loaded'){
         const { shortcuts } = await chrome.storage.sync.get(["shortcuts"]);
 
         return shortcuts;
