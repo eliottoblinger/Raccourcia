@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div v-if="shortcut.action.id === 3">
+      <div v-if="[3, 4].includes(shortcut.action.id)">
         <div>{{ shortcut.action.name }}</div>
         <div v-if="shortcut.strategy.instruction.trim() !== ''" class="flex items-center font-semibold">
           <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

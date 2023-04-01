@@ -5,84 +5,47 @@ const getCurrentTab = async () => {
 }
 
 const processRequest = async (request) => {
-    const { shortcuts } = await chrome.storage.sync.get(["shortcuts"]);
-
-    let { keys } = await chrome.storage.sync.get(["keys"]);
-
     if(request.event === 'load'){
-        await chrome.storage.sync.set({
-            keys: []
+        const { shortcuts } = await chrome.storage.sync.get(["shortcuts"]);
+
+        return shortcuts;
+    }
+
+    if(request.event === 'askTabId'){
+        const tab = await getCurrentTab();
+
+        return tab.id;
+    }
+
+    if(request.event === 'openTab'){
+        const url = request.url.trim() === '' ?
+            'chrome://new-tab-page/' :
+            request.url;
+
+        const { index } = await getCurrentTab();
+
+        chrome.tabs.create({
+            index: index+1,
+            url: url,
+            active: true
         });
-
-        return null;
     }
 
-    if(request.event === 'keyup') {
-        if(keys.length === 2){
-            const shortcut = shortcuts
-                .find(st =>
-                    Object.assign([], st.keys)
-                        .sort()
-                        .join(',') ===
-                    keys
-                        .sort()
-                        .join(',')
-                );
+    if(request.event === 'duplicateTab'){
+        const { id } = await getCurrentTab();
 
-            if(shortcut) {
-                await chrome.storage.sync.set({ keys: [] });
-                const tab = await getCurrentTab();
-                console.log(shortcut, tab.id)
-                return {
-                    tabId: tab.id,
-                    shortcut: shortcut
-                }
-            }
-        }
-
-        keys.splice(keys.indexOf(request.key), 1);
-
-        await chrome.storage.sync.set({ keys: keys });
+        chrome.tabs.duplicate(id);
     }
 
-    if(request.event === 'keydown'){
-        if(!keys.includes(request.key) && keys.length < 3){
-            keys.push(request.key);
+    if(request.event === 'closeTab'){
+        const { id } = await getCurrentTab();
 
-            await chrome.storage.sync.set({ keys: keys });
-        }
-
-        if(keys.length > 1){
-            const shortcutsFound = shortcuts
-                .filter(st =>
-                    keys
-                        .every(key => Object.assign([], st.keys).includes(key))
-                );
-
-            if(shortcutsFound.length === 1) {
-                const shortcut = shortcutsFound[0];
-
-                await chrome.storage.sync.set({ keys: [] });
-
-                const tab = await getCurrentTab();
-                console.log(shortcut, tab)
-                return {
-                    tabId: tab.id,
-                    shortcut: shortcut
-                }
-            }
-        }
+        chrome.tabs.remove(id);
     }
-
-    return null;
 }
 
 chrome.runtime.onInstalled.addListener(async (details) => {
     if(details.reason === 'install'){
-        await chrome.storage.sync.set({
-            keys: []
-        });
-
         await chrome.storage.sync.set({
             shortcuts: []
         });
@@ -97,7 +60,7 @@ chrome.runtime.onMessage.addListener(
         processRequest(request)
             .then(response => sendResponse(response));
 
-        return true; // keep the messaging channel open for sendResponse
+        return true;
     }
 );
 

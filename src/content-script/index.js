@@ -1,36 +1,91 @@
-window.addEventListener('load', async () => {
-    await chrome.runtime.sendMessage({
+import findShortcut from "../options/utils/findShortcut.js";
+
+let shortcuts = [];
+let keys = [];
+
+const runAction = async (action, strategy, tabId) => {
+    keys = [];
+
+    if([3, 4, 5].includes(action.id)){
+        await chrome.runtime.sendMessage({
+            event: action.id === 3 ?
+                'openTab' :
+                action.id === 4 ?
+            'duplicateTab' :
+            'closeTab',
+            url: strategy.instruction
+        });
+        //window.open('chrome://new-tab-page/', '_blank').focus();
+    }
+}
+
+const afterDOMLoaded = async () => {
+    shortcuts = await chrome.runtime.sendMessage({
         event: 'load',
     });
-})
+}
+
+if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded',afterDOMLoaded);
+} else {
+    await afterDOMLoaded();
+}
 
 document.onkeyup = async (e) => {
-    //e.preventDefault();
+    if(keys.length === 2){
+        const shortcut = findShortcut(shortcuts, keys);
 
-    const response = await chrome.runtime.sendMessage({
-        event: 'keyup',
-        key: e.key
-    });
+        if(shortcut) {
+            e.preventDefault();
 
-    console.log(response)
+            const tabId = await chrome.runtime.sendMessage({
+                event: 'askTabId',
+            });
+
+            await runAction(shortcut.action, shortcut.strategy, tabId);
+        }
+    }
+
+    keys.splice(keys.indexOf(e.key), 1);
 }
 
 document.onkeydown = async (e) => {
-    //e.preventDefault();
+    if(keys.length === 3)
+        return;
 
-    const response = await chrome.runtime.sendMessage({
-        event: 'keydown',
-        key: e.key
-    });
+    if(!keys.includes(e.key))
+        keys.push(e.key);
 
-    console.log(response)
+    if(keys.length > 1) {
+        const shortcutsFound = shortcuts
+            .filter(shortcut =>
+                keys
+                    .every(key => Object.assign([], shortcut.keys).includes(key))
+            );
 
-    /*
-    const insertPromise = await chrome.scripting.insertCSS({
-        files: ["style.css"],
-        target: { tabId: tab.id }
-    });
-     */
+        if(shortcutsFound.length)
+            e.preventDefault();
+
+        if(
+            shortcutsFound.length === 1 &&
+            Object.assign([], shortcutsFound[0].keys).length === keys.length
+        ) {
+            const shortcut = shortcutsFound[0];
+
+            const tabId = await chrome.runtime.sendMessage({
+                event: 'askTabId',
+            });
+
+            await runAction(shortcut.action, shortcut.strategy, tabId);
+        }
+
+        /*
+        const insertPromise = await chrome.scripting.insertCSS({
+            files: ["style.css"],
+            target: { tabId: tab.id }
+        });
+         */
+    }
 }
 
 export { }

@@ -1,14 +1,8 @@
+import findShortcut from "../findShortcut.js";
+
+
 const shortcutAlreadyExists = (shortcuts, shortcut) => {
-    const shortcutAlreadyExists = shortcuts
-        .find(st =>
-            Object.assign([], st.keys)
-                .sort()
-                .join(',') ===
-            shortcut
-                .keys
-                .sort()
-                .join(',')
-        );
+    const shortcutAlreadyExists = findShortcut(shortcuts, shortcut.keys);
 
     return !shortcutAlreadyExists ?
         false :
