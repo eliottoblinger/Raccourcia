@@ -3,21 +3,23 @@ import findShortcut from "../options/utils/findShortcut.js";
 let shortcuts = [];
 let keys = [];
 
-const runAction = async (action, strategy, tabId) => {
+const showModal = () => {
+
+}
+
+const runAction = async (action, strategy) => {
     keys = [];
 
-    if([3, 4, 5].includes(action.id)){
-        const events = [
-            'openTab',
-            'duplicateTab',
-            'closeTab'
-        ];
-
-        await chrome.runtime.sendMessage({
-            event: events[action.id - 3],
-            url: strategy.instruction
-        });
+    if(action.code === 'FREE_NOTE'){
+        showModal();
+        return;
     }
+
+    await chrome.runtime.sendMessage({
+        event: 'action',
+        action: action,
+        strategy: strategy
+    });
 }
 
 const afterDOMLoaded = async () => {
@@ -39,11 +41,7 @@ document.onkeyup = async (e) => {
         if(shortcut) {
             e.preventDefault();
 
-            const tabId = await chrome.runtime.sendMessage({
-                event: 'askTabId',
-            });
-
-            await runAction(shortcut.action, shortcut.strategy, tabId);
+            await runAction(shortcut.action, shortcut.strategy);
         }
     }
 
@@ -73,11 +71,7 @@ document.onkeydown = async (e) => {
         ) {
             const shortcut = shortcutsFound[0];
 
-            const tabId = await chrome.runtime.sendMessage({
-                event: 'askTabId',
-            });
-
-            await runAction(shortcut.action, shortcut.strategy, tabId);
+            await runAction(shortcut.action, shortcut.strategy);
         }
 
         /*

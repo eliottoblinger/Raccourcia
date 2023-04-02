@@ -6,13 +6,15 @@ class Shortcut{
         action =
             {
                 id: 1,
-                name: 'Demande IA'
+                name: 'Demander à l\'IA',
+                code: 'ASK_IA'
             },
         strategy =
             {
                 id: 1,
                 name: 'Libre',
-                instruction: ''
+                instruction: '',
+                withSelectedText: false
             }
         ) {
         this.id = id;
@@ -20,6 +22,17 @@ class Shortcut{
         this.keys = keys;
         this.action = action;
         this.strategy = strategy
+    }
+
+    setStrategy(strategy =
+        {
+            id: 1,
+            name: 'Libre',
+            instruction: '',
+            withSelectedText: false
+        }
+    ) {
+        this.strategy = strategy;
     }
 }
 

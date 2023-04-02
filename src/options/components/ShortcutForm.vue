@@ -62,13 +62,20 @@
                       border border-gray-300 focus:outline-none text-gray-900 text-sm
                       rounded-lg block w-1/2 px-3 py-1.5"
                         v-model="this.shortcut.action"
+                        @change="this.shortcut.setStrategy()"
                 >
-                  <option v-for="action of this.getActions" :value="action">
+                  <option v-for="action of this.getActions
+                  .sort((a, b) => a.name.localeCompare(b.name))"
+                          :value="action"
+                  >
                     {{ action.name }}
                   </option>
                 </select>
 
-                <ul v-if="[1, 2].includes(this.shortcut.action.id)" class="grid w-1/2 gap-2 md:grid-cols-2 ml-2">
+                <ul v-if="[1, 2].includes(this.shortcut.action.id)"
+                    class="grid w-1/2 gap-2 md:grid-cols-2 ml-2"
+                    @change="this.shortcut.strategy.instruction = ''"
+                >
                   <li v-for="strategy of this.strategies">
                     <input type="radio" :id="strategy.name" name="strategy" :value="strategy" class="hidden peer"
                            v-model="this.shortcut.strategy">
@@ -79,24 +86,36 @@
                 </ul>
               </div>
 
-              <textarea
-                  v-if="[1, 2].includes(this.shortcut.action.id) && this.shortcut.strategy.id === 2"
-                  class="bg-gray-50
+              <div v-if="this.shortcut.strategy.id === 2">
+                 <textarea
+                     v-if="this.shortcut.action.id === 1"
+                     class="bg-gray-50
                       border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg block
                       w-full px-3 py-1.5 mb-3"
-                  style="resize: none;"
-                  placeholder="Ex : Résume moi ce texte"
-                  v-model="this.shortcut.strategy.instruction"
-              />
+                     style="resize: none;"
+                     placeholder="Ex : Résume moi ce texte"
+                     v-model="this.shortcut.strategy.instruction"
+                 />
 
-              <input
-                  v-if="[3].includes(this.shortcut.action.id)"
-                  class="bg-gray-50
+                <input
+                    v-if="this.shortcut.action.id === 2"
+                    class="bg-gray-50
                       border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg block
                       w-full px-3 py-1.5 mb-3"
-                  placeholder="Ex : https://www.gmail.com/"
-                  v-model="this.shortcut.strategy.instruction"
-              />
+                    placeholder="Ex : https://www.gmail.com/"
+                    v-model="this.shortcut.strategy.instruction"
+                />
+              </div>
+
+              <div v-if="this.shortcut.action.id === 1" class="flex items-center">
+                <p class="text-sm text-gray-500 mr-3">
+                  À partir d'un texte sélectionné
+                </p>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" v-model="this.shortcut.strategy.withSelectedText">
+                  <div class="w-8 h-4 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:left-[6px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-500"></div>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -145,12 +164,14 @@ export default {
         {
           id: 1,
           name: 'Libre',
-          instruction: ''
+          instruction: '',
+          withSelectedText: false
         },
         {
           id: 2,
           name: 'Prédéfinie',
-          instruction: ''
+          instruction: '',
+          withSelectedText: false
         }
       ]
     }
@@ -191,7 +212,7 @@ export default {
         return this.getShortcut;
       },
       set(value){
-        this.setShortcut(value)
+        this.setShortcut(Object.assign({}, value))
       }
     },
     keyup: {

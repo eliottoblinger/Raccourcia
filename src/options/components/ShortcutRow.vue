@@ -12,19 +12,8 @@
       </div>
     </td>
     <td class="px-6">
-      <div v-if="[1, 2].includes(shortcut.action.id)">
-        <div>{{ shortcut.action.name }} {{ shortcut.strategy.name.toLowerCase() }}</div>
-        <div v-if="shortcut.strategy.instruction.trim() !== ''" class="flex items-center font-semibold">
-          <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-          </svg>
-
-          {{ shortcut.strategy.instruction }}
-        </div>
-      </div>
-
-      <div v-if="[3, 4, 5].includes(shortcut.action.id)">
-        <div>{{ shortcut.action.name }}</div>
+      <div>
+        <div>{{ shortcut.action.name }} <span v-if="shortcut.action.id === 1">{{ shortcut.strategy.name.toLowerCase() }}</span></div>
         <div v-if="shortcut.strategy.instruction.trim() !== ''" class="flex items-center font-semibold">
           <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />

@@ -12,23 +12,53 @@ export default createStore({
         actions: [
             {
                 id: 1,
-                name: 'Demande IA'
+                name: 'Demander à l\'IA',
+                code: 'ASK_IA'
             },
             {
                 id: 2,
-                name: 'Recherche Google'
+                name: 'Nouvel onglet',
+                code: 'NEW_TAB'
             },
             {
                 id: 3,
-                name: 'Nouvel onglet'
+                name: 'Dupliquer l\'onglet',
+                code: 'DUP_TAB'
             },
             {
                 id: 4,
-                name: 'Dupliquer l\'onglet'
+                name: 'Fermer l\'onglet',
+                code: 'CLO_TAB'
             },
             {
                 id: 5,
-                name: 'Fermer l\'onglet'
+                name: 'Epingler l\'onglet',
+                code: 'PIN_TAB'
+            },
+            {
+                id: 6,
+                name: 'Ajouter aux favoris',
+                code: 'ADD_FAV'
+            },
+            {
+                id: 7,
+                name: 'Télécharger les images',
+                code: 'DL_IMG'
+            },
+            {
+                id: 8,
+                name: 'Note libre',
+                code: 'FREE_NOTE'
+            },
+            {
+                id: 9,
+                name: 'Action à trouver',
+                code: null
+            },
+            {
+                id: 10,
+                name: 'Lancer lighthouse',
+                code: 'LIGHTHOUSE'
             }
         ],
         shortcuts: [],
