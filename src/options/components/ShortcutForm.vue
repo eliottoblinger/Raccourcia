@@ -74,7 +74,7 @@
 
                 <ul v-if="[1, 2].includes(this.shortcut.action.id)"
                     class="grid w-1/2 gap-2 md:grid-cols-2 ml-2"
-                    @change="this.shortcut.strategy.instruction = ''"
+                    @change="this.shortcut.instruction = ''"
                 >
                   <li v-for="strategy of this.strategies">
                     <input type="radio" :id="strategy.name" name="strategy" :value="strategy" class="hidden peer"
@@ -94,7 +94,7 @@
                       w-full px-3 py-1.5 mb-3"
                      style="resize: none;"
                      placeholder="Ex : Résume moi ce texte"
-                     v-model="this.shortcut.strategy.instruction"
+                     v-model="this.shortcut.instruction"
                  />
 
                 <input
@@ -103,7 +103,7 @@
                       border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg block
                       w-full px-3 py-1.5 mb-3"
                     placeholder="Ex : https://www.gmail.com/"
-                    v-model="this.shortcut.strategy.instruction"
+                    v-model="this.shortcut.instruction"
                 />
               </div>
 
@@ -112,7 +112,7 @@
                   À partir d'un texte sélectionné
                 </p>
                 <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" class="sr-only peer" v-model="this.shortcut.strategy.withSelectedText">
+                  <input type="checkbox" class="sr-only peer" v-model="this.shortcut.withSelectedText">
                   <div class="w-8 h-4 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:left-[6px] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-500"></div>
                 </label>
               </div>
@@ -163,15 +163,11 @@ export default {
       strategies: [
         {
           id: 1,
-          name: 'Libre',
-          instruction: '',
-          withSelectedText: false
+          name: 'Libre'
         },
         {
           id: 2,
-          name: 'Prédéfinie',
-          instruction: '',
-          withSelectedText: false
+          name: 'Prédéfinie'
         }
       ]
     }
@@ -257,7 +253,7 @@ export default {
       if(this.keysSelected && !this.keysSelectedValid)
         this.resetKeys();
 
-      if(!this.shortcut.keys.includes(e.key) && !this.areKeysSelected){
+      if(!this.shortcut.keys.includes(e.key) && !this.keysSelected){
         this.keyup = false;
         this.shortcut.keys.push(e.key);
       }

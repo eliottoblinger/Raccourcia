@@ -4,13 +4,13 @@ const getCurrentTab = async () => {
     return tabs[0];
 }
 
-const runAction = async (action, strategy) => {
+const runAction = async (action, strategy, instruction) => {
     const tab = await getCurrentTab();
 
     if(action.code === 'NEW_TAB'){
-        const url = strategy.instruction.trim() === '' ?
+        const url = strategy.id === 1 || instruction.trim() === '' ?
             'chrome://new-tab-page/' :
-            strategy.instruction.trim();
+            instruction;
 
         chrome.tabs.create({
             index: tab.index+1,
@@ -21,7 +21,6 @@ const runAction = async (action, strategy) => {
 
     if(action.code === 'DUP_TAB')
         chrome.tabs.duplicate(tab.id);
-
 
     if(action.code === 'CLO_TAB')
         chrome.tabs.remove(tab.id);
@@ -64,7 +63,7 @@ const processRequest = async (request) => {
     }
 
     if(request.event === 'action')
-        await runAction(request.action, request.strategy);
+        await runAction(request.action, request.strategy, request.instruction);
 }
 
 chrome.runtime.onInstalled.addListener(async (details) => {

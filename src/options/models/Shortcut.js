@@ -12,24 +12,24 @@ class Shortcut{
         strategy =
             {
                 id: 1,
-                name: 'Libre',
-                instruction: '',
-                withSelectedText: false
-            }
+                name: 'Libre'
+            },
+        instruction = '',
+        withSelectedText = false
         ) {
         this.id = id;
         this.name = name;
         this.keys = keys;
         this.action = action;
-        this.strategy = strategy
+        this.strategy = strategy;
+        this.instruction = instruction;
+        this.withSelectedText = withSelectedText;
     }
 
     setStrategy(strategy =
         {
             id: 1,
-            name: 'Libre',
-            instruction: '',
-            withSelectedText: false
+            name: 'Libre'
         }
     ) {
         this.strategy = strategy;
