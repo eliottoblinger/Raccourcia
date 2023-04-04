@@ -1,17 +1,14 @@
 import findShortcut from "../options/utils/findShortcut.js";
+import { prepareModal, toggleModal } from "../background/utils/modal.js";
 
 let shortcuts = [];
 let keys = [];
-
-const showModal = () => {
-
-}
 
 const runAction = async (action, strategy) => {
     keys = [];
 
     if(action.code === 'FREE_NOTE'){
-        showModal();
+        toggleModal();
         return;
     }
 
@@ -26,10 +23,12 @@ const afterDOMLoaded = async () => {
     shortcuts = await chrome.runtime.sendMessage({
         event: 'loaded',
     });
+
+    prepareModal();
 }
 
 if(document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded',afterDOMLoaded);
+    document.addEventListener('DOMContentLoaded', afterDOMLoaded);
 } else {
     await afterDOMLoaded();
 }
@@ -73,13 +72,6 @@ document.onkeydown = async (e) => {
 
             await runAction(shortcut.action, shortcut.strategy);
         }
-
-        /*
-        const insertPromise = await chrome.scripting.insertCSS({
-            files: ["style.css"],
-            target: { tabId: tab.id }
-        });
-         */
     }
 }
 

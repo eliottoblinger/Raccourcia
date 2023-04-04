@@ -13,7 +13,7 @@ const runAction = async (action, strategy) => {
             strategy.instruction.trim();
 
         chrome.tabs.create({
-            index: index+1,
+            index: tab.index+1,
             url: url,
             active: true
         });

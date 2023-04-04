@@ -18,4 +18,5 @@
 .v-enter-from,
 .v-leave-to {
     opacity: 0;
+    transition: opacity 0.5s ease;
 }
