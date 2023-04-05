@@ -12,7 +12,7 @@ export default createStore({
         actions: [
             {
                 id: 1,
-                name: 'Demander à l\'IA',
+                name: 'Demande à l\'IA',
                 code: 'ASK_IA'
             },
             {
