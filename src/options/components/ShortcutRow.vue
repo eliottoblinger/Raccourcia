@@ -13,13 +13,13 @@
     </td>
     <td class="px-6">
       <div>
-        <div>{{ shortcut.action.name }} <span v-if="shortcut.action.id === 1">{{ shortcut.strategy.name.toLowerCase() }}</span></div>
-        <div v-if="shortcut.instruction.trim() !== ''" class="flex items-center font-semibold">
+        <div>{{ shortcut.action.value.name }} <span v-if="shortcut.action.value.id === 1">{{ shortcut.action.strategy.name.toLowerCase() }}</span></div>
+        <div v-if="shortcut.action.strategy.instruction.trim() !== ''" class="flex items-center font-semibold">
           <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
           </svg>
 
-          {{ shortcut.instruction }}
+          {{ shortcut.action.strategy.instruction }}
         </div>
       </div>
     </td>
@@ -95,16 +95,13 @@ export default {
     ]),
     async openModal(type){
       await this.toggleDropdownMenu();
-    console.log(this.shortcut)
+
       this.setShortcut(
           new Shortcut(
               this.shortcut.id,
               this.shortcut.name,
               Object.assign([], this.shortcut.keys),
-              this.shortcut.action,
-              this.shortcut.strategy,
-              this.shortcut.instruction,
-              this.shortcut.withSelectedText
+              this.shortcut.action
           )
       );
 

@@ -4,8 +4,10 @@ const initTransition = () => {
     transition.id = 'raccourcia-modal-transition';
 
     transition.classList.add('hide');
-    transition.style.cssText = `transition: opacity 0.5s ease; 
-    z-index: 10000;`;
+    transition.style.cssText = `
+    transition: opacity 0.5s ease;
+    z-index: 10000;
+    position: fixed;`;
 
     return transition;
 }
@@ -15,7 +17,8 @@ const initDialog = () => {
 
     dialog.id = 'raccourcia-modal-dialog';
 
-    dialog.style.cssText = `border: none; 
+    dialog.style.cssText = `
+    border: none; 
     background: transparent; 
     position: fixed; 
     top: 0; 

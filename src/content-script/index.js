@@ -4,19 +4,17 @@ import { prepareModal, toggleModal } from "../background/utils/modal.js";
 let shortcuts = [];
 let keys = [];
 
-const runAction = async (action, strategy, instruction) => {
+const runAction = async (shortcut) => {
     keys = [];
 
-    if(action.code === 'FREE_NOTE'){
+    if(shortcut.action.value.code === 'FREE_NOTE'){
         toggleModal();
         return;
     }
 
     await chrome.runtime.sendMessage({
         event: 'action',
-        action: action,
-        strategy: strategy,
-        instruction: instruction
+        shortcut: shortcut
     });
 }
 
@@ -41,7 +39,7 @@ document.onkeyup = async (e) => {
         if(shortcut) {
             e.preventDefault();
 
-            await runAction(shortcut.action, shortcut.strategy, shortcut.instruction);
+            await runAction(shortcut);
         }
     }
 
@@ -69,9 +67,7 @@ document.onkeydown = async (e) => {
             shortcutsFound.length === 1 &&
             Object.assign([], shortcutsFound[0].keys).length === keys.length
         ) {
-            const shortcut = shortcutsFound[0];
-
-            await runAction(shortcut.action, shortcut.strategy, shortcut.instruction);
+            await runAction(shortcutsFound[0]);
         }
     }
 }
