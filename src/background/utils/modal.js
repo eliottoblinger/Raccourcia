@@ -5,7 +5,7 @@ const initTransition = () => {
 
     transition.classList.add('hide');
     transition.style.cssText = `
-    transition: all 0.5s ease;
+    transition: opacity 0.5s ease;
     z-index: 10000;
     position: fixed;`;
 
@@ -135,7 +135,7 @@ const toggleModal = () => {
         }, { once: true });
 
         document.body.style.overflow = "hidden";
-    }, 0);
+    }, 100);
 }
 
 export { prepareModal, toggleModal };
