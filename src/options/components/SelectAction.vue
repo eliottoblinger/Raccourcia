@@ -1,6 +1,6 @@
 <template>
-  <div class="relative w-1/2 mr-2">
-    <button type="button" @click="this.dropdownOpened = true" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label"
+  <div class="relative w-1/2 mr-2" v-click-outside="closeDropdown">
+    <button type="button" @click="openDropdown" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label"
             class="w-full rounded-lg cursor-pointer relative border border-gray-300 bg-white px-3 py-1.5 text-left focus:outline-none transition ease-in-out duration-150">
       <div class="flex items-center space-x-3">
         <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""
@@ -45,9 +45,14 @@
 </template>
 
 <script>
+import vClickOutside from 'click-outside-vue3'
 import {mapGetters} from "vuex";
+
 export default {
   name: 'SelectAction',
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data() {
     return {
       dropdownOpened : false
@@ -69,12 +74,18 @@ export default {
   },
   methods: {
     select(action) {
-      this.dropdownOpened = false;
+      this.closeDropdown();
       this.shortcut.action.value = action;
       this.shortcut.setStrategy();
     },
     isActionSelected(action){
       return this.shortcut.action.value.id === action.id;
+    },
+    openDropdown(){
+      this.dropdownOpened = true;
+    },
+   closeDropdown(){
+      this.dropdownOpened = false;
     }
   },
 }

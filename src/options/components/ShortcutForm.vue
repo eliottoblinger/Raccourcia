@@ -27,10 +27,12 @@
     </Transition>
     <Transition>
       <div v-if="this.keysSelected">
-        <p class="text-xs text-center text-gray-500 underline hover:cursor-pointer mb-3"
-           @click="this.resetKeys">
-          Recommencer l'enregistrement
-        </p>
+        <div class="flex justify-center mb-3">
+          <p class="text-xs inline-block text-gray-500 underline hover:cursor-pointer"
+             @click="this.resetKeys">
+            Recommencer l'enregistrement
+          </p>
+        </div>
 
         <div class="text-xs bg-red-50 text-red-500 mt-6 px-3 py-1.5 rounded flex items-center" v-if="!this.keysSelectedValid">
           <svg class="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
