@@ -2,7 +2,7 @@
   <dialog class="border-none bg-transparent fixed top-0 left-0 z-10 overflow-hidden w-full h-full flex justify-center items-center">
     <div class="fixed top-0 left-0 inset-0 bg-white-app-700 opacity-75"></div>
 
-    <div class="z-10 relative overflow-hidden rounded-lg bg-white shadow-xl w-1/2 h-auto">
+    <div class="z-10 relative rounded-lg bg-white shadow-xl lg:w-1/2 md:w-2/3 h-auto">
       <svg class="w-5 h-5 absolute top-0 right-0 mt-3 mr-3 hover:cursor-pointer"
            xmlns="http://www.w3.org/2000/svg"
            fill="none"

@@ -5,7 +5,6 @@ const initTransition = () => {
 
     transition.classList.add('hide');
     transition.style.cssText = `
-    transition: opacity 0.5s ease;
     z-index: 10000;
     position: fixed;`;
 
@@ -77,6 +76,7 @@ const initStyle = () => {
                         
                         .div-enter {
                           opacity: 0;
+                           transition: opacity 0.5s ease;
                         }
                         
                         .div-enter-to {
@@ -89,6 +89,7 @@ const initStyle = () => {
                         
                         .div-leave-to {
                           opacity: 0;
+                           transition: opacity 0.5s ease;
                         }`;
     document.getElementsByTagName('head')[0].appendChild(style);
 }

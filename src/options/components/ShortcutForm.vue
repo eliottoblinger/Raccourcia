@@ -58,28 +58,16 @@
               </p>
 
               <div class="flex items-center mb-3">
-                <select id="actions" class="hover:cursor-pointer bg-gray-50
-                      border border-gray-300 focus:outline-none text-gray-900 text-sm
-                      rounded-lg block w-1/2 px-3 py-1.5"
-                        v-model="this.shortcut.action.value"
-                        @change="this.shortcut.setStrategy()"
-                >
-                  <option v-for="action of this.getActions
-                  .sort((a, b) => a.name.localeCompare(b.name))"
-                          :value="action"
-                  >
-                    {{ action.name }}
-                  </option>
-                </select>
+                <SelectAction/>
 
                 <ul v-if="[1, 2].includes(this.shortcut.action.value.id)"
-                    class="grid w-1/2 gap-2 md:grid-cols-2 ml-2"
+                    class="grid w-1/2 gap-2 md:grid-cols-2"
                     @change="this.shortcut.action.strategy.instruction = ''"
                 >
                   <li v-for="strategy of this.strategies">
                     <input type="radio" :id="strategy" name="strategy" :value="strategy" class="hidden peer"
                            v-model="this.shortcut.action.strategy.name">
-                    <label :for="strategy" class="flex font-semibold items-center justify-center w-full px-3 py-1.5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-500 peer-checked:text-blue-500 hover:text-gray-600 hover:bg-gray-100">
+                    <label :for="strategy" class="flex font-semibold items-center justify-center w-full px-3 py-1.5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-500 peer-checked:text-blue-500">
                       {{ strategy }}
                     </label>
                   </li>
@@ -101,7 +89,7 @@
                     v-if="this.shortcut.action.value.id === 2"
                     class="bg-gray-50
                       border border-gray-300 focus:outline-none text-gray-900 text-sm rounded-lg block
-                      w-full px-3 py-1.5 mb-3"
+                      w-9/12 px-3 py-1.5 mb-3"
                     placeholder="Ex : https://www.gmail.com/"
                     v-model="this.shortcut.action.strategy.instruction"
                 />
@@ -151,12 +139,14 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import KeyboardKey from "./KeyboardKey.vue";
+import SelectAction from "./SelectAction.vue";
 import throwErrorIfShortcutAlreadyExists from "../utils/errors/throwErrorIfShortcutAlreadyExists.js";
 
 export default {
   name: "ShortcutForm",
   components: {
-    KeyboardKey
+    KeyboardKey,
+    SelectAction
   },
   data(){
     return {
@@ -192,7 +182,6 @@ export default {
   computed: {
     ...mapGetters([
         'getShortcut',
-        'getActions',
         'areKeysSelected',
         'areKeysSelectedValid',
         'isKeyup'
