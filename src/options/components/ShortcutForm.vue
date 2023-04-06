@@ -59,14 +59,14 @@
                 Définissez une action pour votre raccourci.
               </p>
 
-              <div class="flex items-center mb-3">
+              <div class="md:flex md:items-center mb-3">
                 <SelectAction/>
 
                 <ul v-if="[1, 2].includes(this.shortcut.action.value.id)"
-                    class="grid w-1/2 gap-2 md:grid-cols-2"
+                    class="flex sm:w-full md:w-1/2"
                     @change="this.shortcut.action.strategy.instruction = ''"
                 >
-                  <li v-for="strategy of this.strategies">
+                  <li v-for="strategy of this.strategies" class="w-1/2 mr-2">
                     <input type="radio" :id="strategy" name="strategy" :value="strategy" class="hidden peer"
                            v-model="this.shortcut.action.strategy.name">
                     <label :for="strategy" class="flex font-semibold items-center justify-center w-full px-3 py-1.5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-500 peer-checked:text-blue-500">

@@ -42,6 +42,10 @@
   <Transition>
     <ShortcutDeleteModal/>
   </Transition>
+
+  <div class="m-6 flex justify-between items-center font-semibold">
+    © {{ new Date().getFullYear() }} Raccourcia - Tous droits réservés
+  </div>
 </template>
 
 <script>

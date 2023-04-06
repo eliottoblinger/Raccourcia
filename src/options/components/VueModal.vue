@@ -1,5 +1,5 @@
 <template>
-  <dialog class="border-none bg-transparent fixed top-0 left-0 z-10 overflow-hidden w-full h-full flex justify-center items-center">
+  <div class="border-none bg-transparent fixed top-0 left-0 z-10 overflow-hidden w-full h-full flex justify-center items-center">
     <div class="fixed top-0 left-0 inset-0 bg-white-app-700 opacity-75"></div>
 
     <div class="z-10 relative rounded-lg bg-white shadow-xl lg:w-1/2 md:w-2/3 h-auto">
@@ -41,11 +41,12 @@
         </Transition>
       </div>
     </div>
-  </dialog>
+  </div>
 </template>
 
 <script>
 import {mapMutations} from "vuex";
+import Modal from "../models/Modal.js";
 
 export default {
   name: "VueModal",
@@ -62,7 +63,7 @@ export default {
   methods: {
     ...mapMutations([
       'resetShortcut',
-      'resetModal'
+      'setModal'
     ]),
     async submitForm(){
       this.loading = true;
@@ -75,7 +76,7 @@ export default {
     },
     closeModal(){
       this.resetShortcut();
-      this.resetModal();
+      this.setModal(new Modal());
     }
   }
 }

@@ -5,13 +5,13 @@
       <th class="px-6 py-3" style="width: 25%;">
         Nom
       </th>
-      <th class="px-6 py-3" style="width: 25%;">
+      <th class="px-6 py-3" style="width: 20%;">
         Raccourci
       </th>
-      <th class="px-6 py-3" style="width: 25%;">
+      <th class="px-6 py-3" style="width: 50%;">
         Action
       </th>
-      <th class="px-6 py-3" style="width: 25%;">
+      <th class="px-6 py-3" style="width: 5%;">
 
       </th>
     </tr>
