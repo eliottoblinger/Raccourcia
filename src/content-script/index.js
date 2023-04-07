@@ -38,27 +38,23 @@ const runAction = async (shortcut) => {
     if(shortcut.action.value.code === 'GET_COLORS'){
         const colors = getAllCssColors();
 
-        if(colors.length){
-            const colorPalette = findHighestOccurences(colors, 4).map(color => color.item);
+        const colorPalette = findHighestOccurences(colors, 4).map(color => color.item);
 
-            toggleModal(getFrameHtml('src/modal/colors.html'));
+        toggleModal(getFrameHtml('src/modal/colors.html'));
 
-            const iframeDocument = document.querySelector('#modal-content').contentDocument;
+        const iframeDocument = document.querySelector('#modal-content').contentDocument;
 
-            for(const [index, color] of colorPalette.entries()){
-                const colorNumber = colorPalette.length - index - 1;
+        for(const [index, color] of colorPalette.entries()){
+            const colorNumber = colorPalette.length - index - 1;
 
-                iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
-                iframeDocument.querySelector(`#c${colorNumber} > div`).innerText = color.toUpperCase();
-            }
-
-            iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
-                "beforeend",
-                `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
-
-            return;
+            iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
+            iframeDocument.querySelector(`#c${colorNumber} > div`).innerText = color.toUpperCase();
         }
-        console.log("Cannot get colors.");
+
+        iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
+            "beforeend",
+            `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
+
         return;
     }
 

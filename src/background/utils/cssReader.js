@@ -20,8 +20,6 @@ const getAllCss = () => {
 const getAllCssColors = () => {
     const allCss = getAllCss();
 
-    console.log(allCss)
-
     return findRgbColors(allCss)
         .map(
             rgb => rgbToHex(rgb)
