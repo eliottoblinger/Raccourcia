@@ -36,7 +36,8 @@
         "*://*/*"
       ],
       "resources": [
-        "src/content-script/index.js"
+        "src/content-script/index.js",
+        "src/modal/colors.html"
       ]
     }
   ]

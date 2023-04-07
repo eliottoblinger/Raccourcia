@@ -1,8 +1,31 @@
 import findShortcut from "../options/utils/findShortcut.js";
 import { prepareModal, toggleModal } from "../background/utils/modal.js";
+import { getAllCssColors } from "../background/utils/cssReader.js";
+import { findHighestOccurences } from "../background/utils/array";
 
 let shortcuts = [];
 let keys = [];
+
+const setShortcuts = async () => {
+    shortcuts = await chrome.runtime.sendMessage({
+        event: 'loaded',
+    });
+}
+
+const executeAction = async (shortcut) => {
+    await chrome.runtime.sendMessage({
+        event: 'action',
+        shortcut: shortcut
+    });
+}
+
+function getFrameHtml(file) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", chrome.runtime.getURL(file), false);
+    xmlhttp.send();
+
+    return xmlhttp.responseText;
+}
 
 const runAction = async (shortcut) => {
     keys = [];
@@ -12,16 +35,23 @@ const runAction = async (shortcut) => {
         return;
     }
 
-    await chrome.runtime.sendMessage({
-        event: 'action',
-        shortcut: shortcut
-    });
+    if(shortcut.action.value.code === 'GET_COLORS'){
+        const colors = getAllCssColors();
+
+        const colorPalette = findHighestOccurences(colors, 6).map(color => color.item);
+
+        toggleModal(getFrameHtml('src/modal/colors.html'));
+
+        document.querySelector('#modal-content').contentDocument.querySelector('#test').innerHTML = 'Hello world';
+
+        return;
+    }
+
+    await executeAction(shortcut);
 }
 
 const afterDOMLoaded = async () => {
-    shortcuts = await chrome.runtime.sendMessage({
-        event: 'loaded',
-    });
+    await setShortcuts();
 
     prepareModal();
 }

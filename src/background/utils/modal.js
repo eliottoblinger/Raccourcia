@@ -64,32 +64,37 @@ const initModal = () => {
     height: 50vh;
     border-radius: 0.5rem;`;
 
+    modal.innerHTML = `<iframe id="modal-content"; style="height:100%; width: 100%;"></iframe>`;
+
     return modal;
 }
 
 const initStyle = () => {
     const style = document.createElement('style');
     style.type = 'text/css';
-    style.innerHTML = `.hide {
-                          display: none;
-                          opacity: 0;
-                        }
-                        
-                        .div-enter {
-                          opacity: 0;
-                        }
-                        
-                        .div-enter-to {
-                          opacity: 1;
-                        }
-                        
-                        .div-leave {
-                          opacity: 1;
-                        }
-                        
-                        .div-leave-to {
-                          opacity: 0;
-                        }`;
+    style.innerHTML = `
+    body.noscroll
+    {
+        position: fixed;
+        overflow-y: scroll;
+        width: 100%;
+    }
+    .hide {
+      display: none;
+      opacity: 0;
+    }
+    .div-enter {
+      opacity: 0;
+    }
+    .div-enter-to {
+      opacity: 1;
+    }
+    .div-leave {
+      opacity: 1;
+    }
+    .div-leave-to {
+      opacity: 0;
+    }`;
     document.getElementsByTagName('head')[0].appendChild(style);
 }
 
@@ -110,7 +115,7 @@ const prepareModal = () => {
     document.body.appendChild(transition);
 }
 
-const toggleModal = () => {
+const toggleModal = (htmlContent) => {
     const transition = document.querySelector('#raccourcia-modal-transition');
 
     if(!transition.classList.contains("hide")) {
@@ -121,9 +126,15 @@ const toggleModal = () => {
             transition.classList.replace('div-leave-to', 'hide');
         }, { once: true });
 
-        document.body.style.overflow = "unset";
+        document.body.classList.toggle('noscroll');
         return;
     }
+
+    const iframe = document.querySelector('#modal-content');
+
+    iframe.contentDocument.write(htmlContent);
+
+    iframe.frameBorder = 0;
 
     transition.classList.replace('hide', 'div-enter');
 
@@ -134,7 +145,7 @@ const toggleModal = () => {
             transition.classList.remove('div-enter-to');
         }, { once: true });
 
-        document.body.style.overflow = "hidden";
+        document.body.classList.toggle('noscroll');
     }, 100);
 }
 

@@ -56,12 +56,6 @@ const processRequest = async (request) => {
         return shortcuts;
     }
 
-    if(request.event === 'askTabId'){
-        const tab = await getCurrentTab();
-
-        return tab.id;
-    }
-
     if(request.event === 'action')
         await runAction(request.shortcut);
 }
