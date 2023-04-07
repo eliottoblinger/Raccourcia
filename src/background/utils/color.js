@@ -11,7 +11,7 @@ const rgbToHex = (rgb) => {
 }
 
 const findHexColors = (str) => {
-    return str.match(/#([A-Fa-f0-9]{3}){1,2}/g);
+    return str.match(/#([A-Fa-f0-9]{6})/g);
 }
 
 const findRgbColors = (str) => {

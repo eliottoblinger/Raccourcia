@@ -33,7 +33,7 @@
                     :d="action.svg" />
             </svg>
 
-            <span class="block truncate" :class="[this.isActionSelected(action) ? 'font-semibold' : 'font-normal']">
+            <span class="block truncate" :class="[this.isActionSelected(action) ? 'font-semibold' : 'font-semibold']">
                 {{ action.name }} <span v-if="action.id === 1" class="text-yellow-500 ml-3 text-[10px] uppercase">premium</span>
               </span>
           </div>

@@ -38,12 +38,27 @@ const runAction = async (shortcut) => {
     if(shortcut.action.value.code === 'GET_COLORS'){
         const colors = getAllCssColors();
 
-        const colorPalette = findHighestOccurences(colors, 6).map(color => color.item);
+        if(colors.length){
+            const colorPalette = findHighestOccurences(colors, 4).map(color => color.item);
 
-        toggleModal(getFrameHtml('src/modal/colors.html'));
+            toggleModal(getFrameHtml('src/modal/colors.html'));
 
-        document.querySelector('#modal-content').contentDocument.querySelector('#test').innerHTML = 'Hello world';
+            const iframeDocument = document.querySelector('#modal-content').contentDocument;
 
+            for(const [index, color] of colorPalette.entries()){
+                const colorNumber = colorPalette.length - index - 1;
+
+                iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
+                iframeDocument.querySelector(`#c${colorNumber} > div`).innerText = color.toUpperCase();
+            }
+
+            iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
+                "beforeend",
+                `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
+
+            return;
+        }
+        console.log("Cannot get colors.");
         return;
     }
 

@@ -1,7 +1,9 @@
 import {findHexColors, findRgbColors, rgbToHex} from "./color.js";
 
 const getAllCss = () => {
-    return [...document.styleSheets]
+    const styleSheets = [...document.styleSheets];
+
+    return styleSheets ?? [...document.styleSheets]
         .map(styleSheet => {
             try {
                 return [...styleSheet.cssRules]
@@ -17,6 +19,8 @@ const getAllCss = () => {
 
 const getAllCssColors = () => {
     const allCss = getAllCss();
+
+    console.log(allCss)
 
     return findRgbColors(allCss)
         .map(

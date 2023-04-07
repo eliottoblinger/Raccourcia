@@ -1,15 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Londrina+Solid:wght@400;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer base {
-    html {
-        font-family: 'Londrina Solid', cursive;
-        font-weight: 400;
-    }
-}
 
 body.noscroll
 {

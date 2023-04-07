@@ -54,14 +54,14 @@ const initModal = () => {
 
     modal.id = 'raccourcia-modal';
 
-    //need height: auto;
     modal.style.cssText = `
     z-index: 10; 
     overflow: hidden; 
-    background-color: white; 
+    background-color: #F5F5F5
     text-align:left; 
     min-width: 50vw; 
-    height: 50vh;
+    height: 90vh;
+    padding: 1rem;
     border-radius: 0.5rem;`;
 
     modal.innerHTML = `<iframe id="modal-content"; style="height:100%; width: 100%;"></iframe>`;
