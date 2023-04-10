@@ -1,7 +1,5 @@
 import findShortcut from "../options/utils/findShortcut.js";
-import { prepareModal, toggleModal } from "../background/utils/modal.js";
-import { getAllCssColors } from "../background/utils/cssReader.js";
-import { findHighestOccurences } from "../background/utils/array";
+import {isModalOpened, openModal, prepareModal, setIFrameContent} from "../background/utils/modal.js";
 
 let shortcuts = [];
 let keys = [];
@@ -30,30 +28,20 @@ function getFrameHtml(file) {
 const runAction = async (shortcut) => {
     keys = [];
 
+    if(isModalOpened())
+        return;
+
     if(shortcut.action.value.code === 'FREE_NOTE'){
-        toggleModal();
+        openModal();
         return;
     }
 
     if(shortcut.action.value.code === 'GET_COLORS'){
-        const colors = getAllCssColors();
+        const colorsIFrame = getFrameHtml('src/modal/colors.html');
 
-        const colorPalette = findHighestOccurences(colors, 4).map(color => color.item);
+        setIFrameContent(colorsIFrame, 'GET_COLORS');
 
-        toggleModal(getFrameHtml('src/modal/colors.html'));
-
-        const iframeDocument = document.querySelector('#modal-content').contentDocument;
-
-        for(const [index, color] of colorPalette.entries()){
-            const colorNumber = colorPalette.length - index - 1;
-
-            iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
-            iframeDocument.querySelector(`#c${colorNumber} > div`).innerText = color.toUpperCase();
-        }
-
-        iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
-            "beforeend",
-            `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
+        openModal();
 
         return;
     }
