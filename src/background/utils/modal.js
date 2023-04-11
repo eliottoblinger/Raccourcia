@@ -1,5 +1,5 @@
-import {getAllCssColors} from "./cssReader.js";
 import {findHighestOccurences} from "./array.js";
+import {findHtmlColors} from "./color.js";
 
 const initTransition = () => {
     const transition = document.createElement('div');
@@ -148,21 +148,25 @@ const setIFrameContent = (content, code) => {
     iframe.frameBorder = 0;
 
     if(code === 'GET_COLORS'){
-        const colors = getAllCssColors();
+        try{
+            const colors = findHtmlColors();
 
-        const colorPalette = findHighestOccurences(colors, 4).map(color => color.item);
+            const colorPalette = findHighestOccurences(colors, 4).map(color => color.item);
 
-        for(const [index, color] of colorPalette.entries()){
-            const colorNumber = colorPalette.length - index - 1;
+            for(const [index, color] of colorPalette.entries()){
+                const colorNumber = colorPalette.length - index - 1;
 
-            iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
-            iframeDocument.querySelector(`#c${colorNumber} > div`).innerText = color.toUpperCase();
+                iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
+                iframeDocument.querySelector(`#c${colorNumber} > div`).innerText = color.toUpperCase();
+            }
+        }catch(e){
+            iframeDocument.querySelector('#colors-palette').classList.add('hide');
+            iframeDocument.querySelector('#error').classList.remove('hide');
+        }finally{
+            iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
+                "beforeend",
+                `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
         }
-
-        iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
-            "beforeend",
-            `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
-
     }
 }
 

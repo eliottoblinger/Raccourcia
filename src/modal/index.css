@@ -122,3 +122,12 @@ html, body{
 .color-hex:hover{
     background-color: rgba(0,0,0,.15);
 }
+
+.hide{
+    display: none;
+}
+
+#error{
+    font-size: 14px;
+    color: gray;
+}
