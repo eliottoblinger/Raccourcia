@@ -32,7 +32,12 @@ const runAction = async (shortcut) => {
         return;
 
     if(shortcut.action.value.code === 'FREE_NOTE'){
+        const freeNoteIFrame = getFrameHtml('src/modal/free-note.html');
+
+        setIFrameContent(freeNoteIFrame, 'FREE_NOTE');
+
         openModal();
+
         return;
     }
 

@@ -163,10 +163,32 @@ const setIFrameContent = (content, code) => {
             iframeDocument.querySelector('#colors-palette').classList.add('hide');
             iframeDocument.querySelector('#error').classList.remove('hide');
         }finally{
-            iframeDocument.getElementsByTagName("head")[0].insertAdjacentHTML(
+            const head =  iframeDocument.getElementsByTagName("head")[0];
+            const script = iframeDocument.createElement('script');
+
+            head.insertAdjacentHTML(
                 "beforeend",
                 `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
+
+            script.type = 'text/javascript';
+            script.src = chrome.runtime.getURL('src/modal/colors.js');
+
+            head.appendChild(script);
         }
+
+        return;
+    }
+
+    if(code === 'FREE_NOTE'){
+        const head =  iframeDocument.getElementsByTagName("head")[0];
+
+        head.insertAdjacentHTML(
+            "beforeend",
+            `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
+
+        iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
+
+        return;
     }
 }
 

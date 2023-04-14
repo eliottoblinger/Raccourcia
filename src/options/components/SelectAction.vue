@@ -1,5 +1,5 @@
 <template>
-  <div class="relative md:mb-0 sm:mb-3 w-1/2 mr-2" v-click-outside="closeDropdown">
+  <div class="relative mb-3 md:mb-0 sm:w-full md:w-1/2 md:mr-2" v-click-outside="closeDropdown">
     <button type="button" @click="openDropdown" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label"
             class="w-full rounded-lg cursor-pointer relative border border-gray-300 bg-white px-3 py-1.5 text-left transition ease-in-out duration-150">
       <div class="flex items-center space-x-2 text-blue-500 font-semibold">

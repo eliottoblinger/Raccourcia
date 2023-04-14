@@ -85,6 +85,10 @@ html, body{
     font-weight: 600;
 }
 
+.text-center{
+    text-align: center;
+}
+
 .text-sm{
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -113,10 +117,18 @@ html, body{
 }
 
 .color-hex{
+    width: 60px;
+    text-align: center;
     background-color: rgba(0,0,0,.1);
     color: white;
     padding: 0.15rem 0.5rem 0.15rem 0.5rem;
     border-radius: 0 5px 0 0;
+    transition: background-color 250ms;
+}
+
+.color-hex.clicked{
+    background-color: black !important;
+    transition: background-color 250ms !important;
 }
 
 .color-hex:hover{

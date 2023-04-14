@@ -66,7 +66,7 @@
                     class="flex sm:w-full md:w-1/2"
                     @change="this.shortcut.action.strategy.instruction = ''"
                 >
-                  <li v-for="strategy of this.strategies" class="w-1/2 mr-2">
+                  <li v-for="[index, strategy] of this.strategies.entries()" :class="[index === 1 && 'pl-2', 'w-1/2']">
                     <input type="radio" :id="strategy" name="strategy" :value="strategy" class="hidden peer"
                            v-model="this.shortcut.action.strategy.name">
                     <label :for="strategy" class="flex font-semibold items-center justify-center w-full px-3 py-1.5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-500 peer-checked:text-blue-500">
