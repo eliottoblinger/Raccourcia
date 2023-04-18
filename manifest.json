@@ -38,7 +38,10 @@
       "resources": [
         "src/content-script/index.js",
         "src/modal/colors.html",
+        "src/modal/free-note.html",
         "src/modal/colors.js",
+        "src/modal/free-note.js",
+        "src/modal/ckeditor.js",
         "src/modal/index.css"
       ]
     }

@@ -1,5 +1,6 @@
 import {findHighestOccurences} from "./array.js";
 import {findHtmlColors} from "./color.js";
+import throwErrorIfShortcutAlreadyExists from "../../options/utils/errors/throwErrorIfShortcutAlreadyExists.js";
 
 const initTransition = () => {
     const transition = document.createElement('div');
@@ -132,12 +133,12 @@ const prepareModal = () => {
     transition.appendChild(dialog);
     document.body.appendChild(transition);
 
-    document.querySelector('#close-modal-btn').addEventListener('click', () => {
-        closeModal();
+    document.querySelector('#close-modal-btn').addEventListener('click', async () => {
+        await closeModal();
     });
 }
 
-const setIFrameContent = (content, code) => {
+const setIFrameContent = async (content, code) => {
     const iframe = document.querySelector('#modal-content');
     const iframeDocument = iframe.contentDocument;
 
@@ -175,26 +176,65 @@ const setIFrameContent = (content, code) => {
 
             head.appendChild(script);
         }
-
-        return;
     }
 
     if(code === 'FREE_NOTE'){
         const head =  iframeDocument.getElementsByTagName("head")[0];
+        const body =  iframeDocument.getElementsByTagName("body")[0];
+
+        const scripts = [
+            {
+                type: 'text/javascript',
+                src: chrome.runtime.getURL('src/modal/ckeditor.js'),
+                appendTo: head
+            },
+            {
+                type: 'text/javascript',
+                src: chrome.runtime.getURL('src/modal/free-note.js'),
+                appendTo: body
+            }
+        ];
 
         head.insertAdjacentHTML(
             "beforeend",
             `<link rel="stylesheet" href="${chrome.runtime.getURL('src/modal/index.css')}" />`);
 
-        iframeDocument.querySelector(`#c${colorNumber}`).style.backgroundColor = color;
+        for(let script of scripts){
+            const aScript = iframeDocument.createElement('script');
+            aScript.type = script.type;
+            aScript.src = script.src;
 
-        return;
+            script.appendTo.appendChild(aScript);
+        }
+
+        const { raccourciaFreeNoteContent } =  await chrome.storage.sync.get(["raccourciaFreeNoteContent"]);
+
+        iframeDocument.querySelector('#editor-content').innerHTML = raccourciaFreeNoteContent;
     }
+
+    return iframeDocument;
+}
+
+const saveFreeNoteIfExists = async () => {
+    const iframe = document.querySelector('#modal-content');
+    const iframeDocument = iframe.contentDocument;
+    const raccourciaEditor = iframeDocument.querySelector('#raccourcia-editor-container');
+
+    if(!raccourciaEditor)
+        return;
+
+    const content = iframeDocument.querySelector('.ck-content');
+
+    await chrome.storage.sync.set({
+        raccourciaFreeNoteContent: content.innerHTML
+    });
 }
 
 const isModalOpened = () => !document.querySelector('#raccourcia-modal-transition')?.classList.contains('hide');
 
-const closeModal = () => {
+const closeModal = async () => {
+    await saveFreeNoteIfExists();
+
     const transition = document.querySelector('#raccourcia-modal-transition');
 
     transition.classList.add('div-leave');

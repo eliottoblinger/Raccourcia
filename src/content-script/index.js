@@ -34,7 +34,7 @@ const runAction = async (shortcut) => {
     if(shortcut.action.value.code === 'FREE_NOTE'){
         const freeNoteIFrame = getFrameHtml('src/modal/free-note.html');
 
-        setIFrameContent(freeNoteIFrame, 'FREE_NOTE');
+        await setIFrameContent(freeNoteIFrame, 'FREE_NOTE');
 
         openModal();
 
@@ -44,7 +44,7 @@ const runAction = async (shortcut) => {
     if(shortcut.action.value.code === 'GET_COLORS'){
         const colorsIFrame = getFrameHtml('src/modal/colors.html');
 
-        setIFrameContent(colorsIFrame, 'GET_COLORS');
+        await setIFrameContent(colorsIFrame, 'GET_COLORS');
 
         openModal();
 
