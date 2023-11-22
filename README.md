@@ -1,16 +1,25 @@
-# Vue 3 + TypeScript + Vite
+# Raccourcia - Chrome Extension for Custom Shortcuts
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Overview
 
-## Recommended IDE Setup
+Raccourcia is a Google Chrome extension designed to enhance your browsing experience by allowing you to create and use custom shortcuts for various actions on the internet. With Raccourcia, you can streamline your workflow and perform common tasks with just a keystroke.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+## Features
 
-## Type Support For `.vue` Imports in TS
+### 1. Create Custom Shortcuts
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+Raccourcia empowers you to create personalized shortcuts for a range of actions, making your browsing experience more efficient. Tailor shortcuts to match your preferred actions and access them instantly.
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+### 2. Common Actions Supported
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+Raccourcia supports a variety of common actions, including:
+
+- **Open Tab:** Quickly open a new tab with a predefined shortcut.
+- **Close Tab:** Instantly close the current tab with a custom keystroke.
+- **Search:** Perform a search using your preferred search engine directly from the address bar.
+- **Chat with GPT:** Initiate a conversation with ChatGPT using a designated shortcut.
+- **Add to Favorites:** Bookmark your favorite websites effortlessly.
+
+### 3. Intuitive Interface
+
+Raccourcia boasts a user-friendly interface, allowing you to manage and customize your shortcuts with ease. The intuitive options make it simple to create, edit, or remove shortcuts according to your evolving needs.
